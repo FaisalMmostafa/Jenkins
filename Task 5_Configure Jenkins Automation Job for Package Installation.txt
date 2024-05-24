@@ -1,0 +1,122 @@
+Configure Jenkins Job for Package Installation
+
+Some new requirements have come up to install and configure
+some packages on the nautilus infrastructure under Stratos datacenter.
+The nautilus devops team installed and configure Jenkins server so they wanted to create
+a Jenkins job to automate the task. find below more details and complete the task accordingly:
+
+Click on the Jenkins button on top bar to access Jenkins UL 
+
+1.Access the Jenkins UI by clicking on the Jenkins button in the top bar. Log in using the credentials: username admin and password Adm!n321.
+
+
+Create a Jenk Job named install-packages and configure to accomplish below given tasks.
+
+. Add a string parameter name PACKAGE
+ .Configure it to install a package on the storage server in stratos datacenter provided to the package parameter.
+
+
+1. You might need to install some plugins and restart Jenkins service >so we recommend clicking on " restart Jenkins when installation is complete and no jobs are rumming" on 
+plugin installation update page.
+
+=======================================
+
+
+step 1
+------
+
+
+Click on the Jenkins button on the top bar. 
+Login using the Jenkins admin user and password given in the question
+
+Step 2: 
+------
+Create a New Jenkins Job
+On the Jenkins dashboard, click on New Item on the left sidebar.
+In the Enter an item name field, type install-packages.
+Select Freestyle project.
+Click OK.
+
+Step 3: 
+------
+
+Configure the Job
+General Configuration:
+
+Optionally add a description for the job.
+Add a String Parameter:
+
+Scroll down to the Build Environment section.
+Check the box This project is parameterized.
+Click Add Parameter and select String Parameter.
+Set the Name to PACKAGE.
+Optionally set a default value and description.
+
+
+Step 4
+------
+
+Under Jenkins > Manage Jenkins > Manage Plugins click Available and search for SSH plugin.
+
+Select the plugin SSh, SSh credential, SSH Build Agents and click  Install without restart 
+
+In the following screen, click checkbox Restart Jenkins when installation is complete & refresh  the login screen
+
+Step 5
+------
+
+Create SSH credentials in Jenkins:
+
+Under Jenkins > Manage Jenkins > Manage Credentials, click Global under Stores scoped to Jenkins and Add Credentials
+
+Setup credentials for 
+
+Username: natasha
+
+Password: Bl@kW
+
+ID: Nautilus storage server
+
+
+step 6
+------
+
+Add SSH Hosts in Jenkins
+
+Click Jenkins > Manage Jenkins > Configure System
+
+Under SSH Remote Hosts click Add Host and provide the following values:
+
+Hostname: ststor01.stratos.xfusioncorp.com
+
+Port: 22
+
+Credentials: Choose natasha from the list
+
+
+Click Check Connection to make sure connection is successful
+
+step 7
+------
+
+Create the Build Job
+
+Click New item and in the following screen:
+
+Name: install-packages (Keep 'Freestyle Project' as selected) and click Ok
+
+In package field
+  
+put the desire install package( httpd, wget,curl,git)
+
+===================
+
+in command prompt check the package status by command
+
+# sudo systemctl status httpd
+
+
+
+
+
+

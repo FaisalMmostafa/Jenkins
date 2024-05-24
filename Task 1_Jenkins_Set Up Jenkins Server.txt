@@ -1,0 +1,135 @@
+***Set Up Jenkins Server***
+======================
+
+The DevOps team of xFusionCorp Industries is planning to setup some CI/CD pipelines. After several meetings they have decided to use Jenkins server. So, we need to setup a Jenkins Server as soon as possible. Please complete the task as per requirements mentioned below:
+
+
+1. Install jenkins on jenkins server using yum utility only, and start its service. You might face timeout issue while starting the Jenkins service, please refer this link for help.
+
+2. Jenkin's admin user name should be theadmin, password should be Adm!n321, full name should be Rose and email should be rose@jenkins.stratos.xfusioncorp.com.
+
+Note:
+
+
+1. For this task, ssh into the jenkins server using user root and password S3curePass from jump host.
+
+2. After installing the Jenkins server, please click on the Jenkins button on the top bar to access Jenkins UI and follow the on-screen instructions to create an admin user.
+=========================================================================
+
+# ssh root@jenkins
+password:S3curePass
+
+root@jenkins~#
+
+first check the OS of linus
+
+cat /etc/os-release
+
+output:
+
+NAME="CentOS Linux"
+VERSION="8"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="8"
+PLATFORM_ID="platform:el8"
+PRETTY_NAME="CentOS Linux 8"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:8"
+HOME_URL="https://centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="8"
+
+As it is centos 8 following commands are based on centos 8.
+
+
+
+1.
+Add the Jenkins Repository:
+First, you need to add the Jenkins repository to your system.
+
+Sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+
+2.
+
+Install Java:
+Jenkins requires Java to run. Install Java (OpenJDK) using yum.
+
+sudo yum install java-11-openjdk
+
+3.
+
+Install Jenkins:
+Now you can install Jenkins using yum.
+
+
+sudo yum install Jenkins
+
+4. 
+Start the Jenkins Service:
+After installation, start the Jenkins service.
+
+
+sudo systemctl start Jenkins
+
+5.
+Enable Jenkins to Start on Boot:
+To ensure Jenkins starts automatically when the system boots, enable the Jenkins service.
+
+
+sudo systemctl enable Jenkins
+
+6.
+
+Adjust the Firewall:
+If you have a firewall enabled, you need to allow traffic on port 8080, which Jenkins uses by default.
+
+
+sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
+sudo firewall-cmd --reload
+
+7.
+Access Jenkins:
+Jenkins should now be running on your server. You can access it by navigating to http://your_server_ip:8080 in your web browser.
+
+Unlock Jenkins:
+The first time you access Jenkins, it will ask you for an initial admin password. You can find this password in the following file:
+
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+8.
+ in webpage put the secret password, then install the plugin , after installation fill up the blank form
+
+Jenkin's admin user name should be the admin, password should be Adm!n321, full name should be Rose and email should be rose@jenkins.stratos.xfusioncorp.com
+
+
+================================================
+
+Increase Timeout:
+If Jenkins requires more time to start up due to system constraints or heavy workload, you can try increasing the timeout for the systemd service. You can edit the Jenkins service file to increase the timeout value:
+
+1.
+sudo systemctl edit jenkins.service
+
+2.
+Add the following lines to the editor by :
+
+
+[Service]
+TimeoutStartSec=600
+
+:wq!
+
+3.
+Save and close the editor, then restart the Jenkins service:
+
+
+sudo systemctl daemon-reload
+sudo systemctl restart Jenkins
+
+This will increase the timeout to 10 minutes (600 seconds). Adjust the value as needed.
+
